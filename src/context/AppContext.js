@@ -8,7 +8,7 @@ export const AppReducer = (state, action) => {
       let updateqty = false;
       state.expenses.map((expense) => {
         if (expense.name === action.payload.name) {
-          expense.quantity += action.payload.quantity;
+          expense.quantity += Number(action.payload.quantity);
           updateqty = true;
         }
         newExpenses.push(expense);
@@ -20,10 +20,11 @@ export const AppReducer = (state, action) => {
         ...state,
       };
 
+    //   TODO is return true necessary? action.type ="DONE" is redundant? 
     case "RED_QUANTITY":
       state.expenses.map((expense) => {
         if (expense.name === action.payload.name) {
-          expense.quantity -= action.payload.quantity;
+          expense.quantity -= Number(action.payload.quantity);
         }
         expense.quantity = expense.quantity < 0 ? 0 : expense.quantity;
         newExpenses.push(expense);
@@ -38,7 +39,7 @@ export const AppReducer = (state, action) => {
 
     case "DELETE_ITEM":
       state.expenses.map((expense) => {
-        if ((expense.name = action.payload.name)) {
+        if ((expense.name === action.payload.name)) {
           expense.quantity = 0;
         }
         newExpenses.push(expense);
