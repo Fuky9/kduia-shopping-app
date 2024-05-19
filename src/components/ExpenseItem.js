@@ -18,14 +18,15 @@ const ExpenseItem = (props) => {
   return (
     <tr>
       <td>{props.name}</td>
-      <td>
-        {parseInt(props.quantity)}
-      </td>
+      <td>{parseInt(props.quantity)}</td>
       <td>
         {Location}
         {props.unitprice}
       </td>
-      <td>{itemsPrice()}</td>
+      <td>
+        {Location}
+        {itemsPrice()}
+      </td>
       <td>
         <FaTimesCircle
           size="2.2em"

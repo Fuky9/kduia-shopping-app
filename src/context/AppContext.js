@@ -1,62 +1,56 @@
 import React, { createContext, useReducer } from "react";
 
 export const AppReducer = (state, action) => {
-  let newExpenses = [];
-
   switch (action.type) {
     case "ADD_QUANTITY":
-      let updateqty = false;
-      state.expenses.map((expense) => {
-        if (expense.name === action.payload.name) {
-          expense.quantity += Number(action.payload.quantity);
-          updateqty = true;
-        }
-        newExpenses.push(expense);
-        return true;
-      });
-      state.expenses = newExpenses;
-      action.type = "DONE";
       return {
         ...state,
+        expenses: state.expenses.map((expense) =>
+          expense.name === action.payload.name
+            ? {
+                ...expense,
+                quantity: expense.quantity + Number(action.payload.quantity),
+              }
+            : expense
+        ),
       };
 
-    //   TODO is return true necessary? action.type ="DONE" is redundant? 
     case "RED_QUANTITY":
-      state.expenses.map((expense) => {
-        if (expense.name === action.payload.name) {
-          expense.quantity -= Number(action.payload.quantity);
-        }
-        expense.quantity = expense.quantity < 0 ? 0 : expense.quantity;
-        newExpenses.push(expense);
-        return true;
-      });
-
-      state.expenses = newExpenses;
-      action.type = "DONE";
       return {
         ...state,
+        expenses: state.expenses.map((expense) => {
+          if (
+            expense.name === action.payload.name &&
+            expense.quantity - Number(action.payload.quantity) >= 0
+          ) {
+            return {
+              ...expense,
+              quantity: expense.quantity - Number(action.payload.quantity),
+            };
+          } else if (expense.name === action.payload.name) {
+            alert("Quantity cannot be negative!");
+          }
+          return expense;
+        }),
       };
 
     case "DELETE_ITEM":
-      state.expenses.map((expense) => {
-        if ((expense.name === action.payload.name)) {
-          expense.quantity = 0;
-        }
-        newExpenses.push(expense);
-        return true;
-      });
-
-      state.expenses = newExpenses;
-      action.type = "DONE";
       return {
         ...state,
+        expenses: state.expenses.map((expense) =>
+          expense.name === action.payload.name
+            ? {
+                ...expense,
+                quantity: 0,
+              }
+            : expense
+        ),
       };
 
     case "CHG_LOCATION":
-      action.type = "DONE";
-      state.Location = action.payload;
       return {
         ...state,
+        Location: action.payload,
       };
 
     default:
