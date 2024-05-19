@@ -43,7 +43,7 @@ const ItemSelected = (props) => {
           >
             <option defaultValue>Choose...</option>
             {expenses.map((expense) => (
-              <option value={expense.name} name={expense.name}>
+              <option value={expense.name} name={expense.name} key={expense.id}>
                 {expense.name}
               </option>
             ))}
